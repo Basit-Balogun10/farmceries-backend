@@ -55,7 +55,7 @@ const Product = mongoose.model("Product", productSchema);
 
 const orderSchema = new mongoose.Schema({
     userEmail: String,
-    transactionID: String,
+    transactionId: String,
     product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
@@ -109,7 +109,7 @@ app.get("/api/orders", async (req, res) => {
 
 // Sample route to add a new order for a user
 app.post("/api/orders", async (req, res) => {
-    const { userEmail, productId, quantity } = req.body;
+    const { userEmail, productId } = req.body;
 
     try {
         // Check if the product exists
@@ -122,7 +122,7 @@ app.post("/api/orders", async (req, res) => {
         const newOrder = await Order.create({
             userEmail,
             product: product._id,
-            quantity,
+            transactionId: uuidv4(),
             status: "pending", // Default status is 'pending'
         });
 
