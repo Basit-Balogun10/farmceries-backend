@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
-import { corsHandler } from "./middleware/corsMiddleware";
+// import { corsHandler } from "./middleware/corsMiddleware";
 import mongoose from "mongoose";
 
 dotenv.config();
@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(corsHandler);
+// app.use(corsHandler);
 // Connect to MongoDB (replace 'your_mongo_db_url' with your actual MongoDB URL)
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 const productSchema = new mongoose.Schema({
     id: Number,
     name: String,
+    aliases: [String],
     image: String,
     shortDesc: String,
     longDesc: String,
@@ -69,8 +70,8 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", orderSchema);
 
-// Middleware
-app.use(bodyParser.json());
+// // Middleware
+// app.use(bodyParser.json());
 
 app.get("/api/products", async (req, res) => {
     const count = parseInt(req.query.count, 10) || 20;
