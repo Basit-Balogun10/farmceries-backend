@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(corsHandler);
 // Connect to MongoDB (replace 'your_mongo_db_url' with your actual MongoDB URL)
-mongoose.connect("your_mongo_db_url", {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
