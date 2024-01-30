@@ -185,6 +185,7 @@ app.post("/api/flutterwave/payment-link", async (req, res) => {
 });
 
 app.post("/api/paystack/payment-link", async (req, res) => {
+    console.log("AUTH KEY: ", process.env.PAYSTACK_SECRET_KEY)
     try {
         const response = await axios.post(
             "https://api.paystack.co/transaction/initialize",
