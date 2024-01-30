@@ -184,6 +184,43 @@ app.post("/api/flutterwave/payment-link", async (req, res) => {
     }
 });
 
+app.post("/api/paystack/payment-link", async (req, res) => {
+    try {
+        const response = await axios.post(
+            "https://api.paystack.co/transaction/initialize",
+            {
+                reference: uuidv4(),
+                callback_url: req.body.callback_url,
+                amount: req.body.amount,
+                email: req.body.email,
+                channels: [
+                    "card",
+                    "bank",
+                    "ussd",
+                    "qr",
+                    "mobile_money",
+                    "bank_transfer",
+                    "eft",
+                ],
+                metadata: {
+                    "cancel_action": req.body.cancellation_url
+                }
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        res.json(response.data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
