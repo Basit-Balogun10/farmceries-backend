@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 // import { corsHandler } from "./middleware/corsMiddleware";
 import mongoose from "mongoose";
+import axios from 'axios'
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -178,8 +179,7 @@ app.post("/api/flutterwave/payment-link", async (req, res) => {
 
         res.json(response.data);
     } catch (err) {
-        console.error(err.code);
-        console.error(err.response.data);
+        console.error(err);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
