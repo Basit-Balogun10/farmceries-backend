@@ -185,7 +185,7 @@ app.post("/api/flutterwave/payment-link", async (req, res) => {
 });
 
 app.post("/api/paystack/payment-link", async (req, res) => {
-    conosle.log("callback: ", req.body.callback_url);
+    console.log("callback: ", req.body.callback_url);
     try {
         const response = await axios.post(
             "https://api.paystack.co/transaction/initialize",
