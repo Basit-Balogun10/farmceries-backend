@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 // import { corsHandler } from "./middleware/corsMiddleware";
 import mongoose from "mongoose";
-import axios from 'axios'
+import axios from "axios";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -128,7 +128,7 @@ app.post("/api/orders", async (req, res) => {
             status: "pending", // Default status is 'pending'
         });
 
-        res.json(newOrder);
+        res.status(201).json(newOrder);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -185,7 +185,7 @@ app.post("/api/flutterwave/payment-link", async (req, res) => {
 });
 
 app.post("/api/paystack/payment-link", async (req, res) => {
-    console.log("AUTH KEY: ", process.env.PAYSTACK_SECRET_KEY)
+    conosle.log("callback: ", req.body.callback_url);
     try {
         const response = await axios.post(
             "https://api.paystack.co/transaction/initialize",
@@ -204,8 +204,8 @@ app.post("/api/paystack/payment-link", async (req, res) => {
                     "eft",
                 ],
                 metadata: {
-                    "cancel_action": req.body.cancellation_url
-                }
+                    cancel_action: req.body.cancellation_url,
+                },
             },
             {
                 headers: {
@@ -216,6 +216,31 @@ app.post("/api/paystack/payment-link", async (req, res) => {
         );
 
         res.json(response.data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+app.get("/api/paystack/verify-payment", async (req, res) => {
+    try {
+        const { reference, amount } = req.query;
+
+        const response = await axios.get(
+            `https://api.paystack.co/transaction/verify/${reference}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        const isPaymentSuccessful =
+            response.data.data.status === "success" &&
+            response.data.data.amount.toString() === amount.toString();
+
+        res.json({ success: isPaymentSuccessful });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Internal Server Error" });
