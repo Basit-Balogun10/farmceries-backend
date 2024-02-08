@@ -240,6 +240,8 @@ app.get("/api/paystack/verify-payment", async (req, res) => {
             response.data.data.status === "success" &&
             response.data.data.amount.toString() === amount.toString();
 
+        console.log(response.data.data.status, response.data.data.amount, amount.toString(), isPaymentSuccessful)
+
         res.json({ success: isPaymentSuccessful });
     } catch (err) {
         console.error(err);
