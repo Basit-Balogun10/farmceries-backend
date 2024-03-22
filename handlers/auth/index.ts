@@ -61,9 +61,11 @@ export const authenticateWithGoogle = async (req: Request, res: Response) => {
 	} else {
 		const stateFromRequest = req.query.state;
 		console.log('cookies: ', req.cookies);
-		const stateFromCookies = req.cookies[AppConfig.OAUTH_STATE_PARAM_NAME];
+		if (req.cookies) {
+			const stateFromCookies = req.cookies[AppConfig.OAUTH_STATE_PARAM_NAME];
+			console.log('COOKIE STATE', stateFromCookies);
+		}
 		console.log('REQUEST STATE', stateFromRequest);
-		console.log('COOKIE STATE', stateFromCookies);
 
 		// if (stateFromCookies === stateFromRequest) {
 		if (true) {
@@ -75,13 +77,12 @@ export const authenticateWithGoogle = async (req: Request, res: Response) => {
 			if (error || !code) {
 				const urlParams = { message: error };
 				res.redirect(
-					`${BASE_FRONTEND_URL}/login?error=${JSON.stringify(
+					`exp://192.168.0.3:8081/--/?error=${JSON.stringify(
 						urlParams
 					)}`
 				);
 			}
 
-			// Consider reversing url name instead of hardcoding REDIRECT_URI down here
 			const { accessToken, refreshToken } =
 				await GoogleAuthService.getTokens(
 					code as string,
