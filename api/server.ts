@@ -1,7 +1,7 @@
 import express from "express";
-import v1Router from '../routes/v1/index.ts';
-import AppConfig from "../config/index.ts"
-import connectDB from "../config/db.ts";
+import v1Router from '../routes/v1/index.js';
+import AppConfig from "../config/index.js"
+import connectDB from "../config/db.js";
 // import { corsHandler } from "./middleware/corsMiddleware";
 import { errorHandler } from "../middleware/errorMiddleware";
 
