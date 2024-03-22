@@ -6,11 +6,11 @@ const secretKey = AppConfig.SECRET_KEY
 const algorithm = AppConfig.ENCRYPTION_ALGORITHM
 const charEncoding = AppConfig.CHARACTER_ENCODING
 
-if (!initVector || !secretKey || !algorithm || !charEncoding) {
-	throw new Error(
-		'initVector, secretKey, algorithm and charEncoding are all required'
-	)
-}
+// if (!initVector || !secretKey || !algorithm || !charEncoding) {
+// 	throw new Error(
+// 		'initVector, secretKey, algorithm and charEncoding are all required'
+// 	)
+// }
 
 export const encryptData = (data: string) => {
 	const cipher = crypto.createCipheriv(
