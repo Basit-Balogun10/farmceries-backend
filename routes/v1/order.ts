@@ -1,5 +1,5 @@
 import express from "express";
-import { createOrder, getOrders, updateOrderStatus } from "../../handlers/order";
+import { createOrder, getOrders, updateOrderStatus } from "../../handlers/order/index.js";
 
 const router = express.Router();
 
