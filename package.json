@@ -5,6 +5,7 @@
     "main": "dist/server.js",
     "type": "module",
     "scripts": {
+        "start": "ts-node api/server.ts",
         "server": "nodemon api/server.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
