@@ -4,7 +4,7 @@ import AppConfig from './index.js';
 
 const connectDB = async () => {
     try {
-        const conn = await connect(AppConfig.MONGODB_URI as string);
+        const conn = await connect(AppConfig.MONGODB_URI);
 
         console.log(
             colors.cyan.underline(`MongoDB Connected: ${conn.connection.host}`)
