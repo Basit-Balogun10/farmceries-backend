@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction, } from "express";
+import AppConfig from "../config";
 
 export const errorHandler = (
     err: TypeError,
@@ -12,6 +13,6 @@ export const errorHandler = (
 
     res.json({
         message: err.message,
-        stack: process.env.NODE_ENV === "production" ? null : err.stack,
+        stack: AppConfig.NODE_ENV === "production" ? null : err.stack,
     });
 };
