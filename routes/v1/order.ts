@@ -1,10 +1,10 @@
 import express from "express";
 import { createOrder, getOrders, updateOrderStatus } from "../../handlers/order/index.js";
 
-const router = express.Router();
+const orderRouter = express.Router();
 
-router.get("/all", getOrders);
-router.post("/create", createOrder);
-router.put("/update-status", updateOrderStatus);
+orderRouter.get("/", getOrders);
+orderRouter.post("/", createOrder);
+orderRouter.put("/:id", updateOrderStatus);
 
-export default router;
+export default orderRouter;

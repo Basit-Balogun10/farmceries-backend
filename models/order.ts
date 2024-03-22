@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import { model,  Schema } from "mongoose";
 
 export interface IOrder {
     userEmail: string;
@@ -7,11 +7,11 @@ export interface IOrder {
     status: "pending" | "delivered";
 }
 
-const orderSchema = new mongoose.Schema<IOrder>({
+const orderSchema = new Schema<IOrder>({
     userEmail: String,
     transactionId: String,
     product: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Product",
     },
     status: {
@@ -21,6 +21,6 @@ const orderSchema = new mongoose.Schema<IOrder>({
     },
 });
 
-const Order = mongoose.model<IOrder>("Order", orderSchema);
+const Order = model<IOrder>("Order", orderSchema);
 
 export default Order;

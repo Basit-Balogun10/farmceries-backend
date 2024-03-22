@@ -51,8 +51,8 @@ export const createOrder = async (req: Request, res: Response) => {
 };
 
 export const updateOrderStatus = async (req: Request, res: Response) => {
-    const orderId = req.query?.orderId
-    const status = req.query?.status as OrderStatus.PENDING
+    const orderId = req.params?.orderId
+    const status = req.body?.status as OrderStatus.PENDING
 
     if (!orderId || !status) {
         return res.status(400).json({ error: "Invalid Request. Please provide orderId and status" });

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export interface IProduct {
     id: number;
@@ -21,7 +21,7 @@ export interface IProduct {
 }
 
 
-const productSchema = new mongoose.Schema<IProduct>({
+const productSchema = new Schema<IProduct>({
     id: Number,
     name: String,
     aliases: [String],
@@ -56,6 +56,6 @@ const productSchema = new mongoose.Schema<IProduct>({
     },
 });
 
-const Product = mongoose.model<IProduct>("Product", productSchema);
+const Product = model<IProduct>("Product", productSchema);
 
 export default Product;
