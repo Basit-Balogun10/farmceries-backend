@@ -3,7 +3,7 @@ import { sendOTP, resendOTP, verifyOTP, authenticateWithGoogle } from "../../han
 
 const authRouter = express.Router();
 
-authRouter.post("/google", authenticateWithGoogle);
+authRouter.get("/google", authenticateWithGoogle);
 authRouter.post("/send-otp", sendOTP);
 authRouter.post("/resend-otp", resendOTP);
 authRouter.post("/verify-otp", verifyOTP);
