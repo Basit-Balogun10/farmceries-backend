@@ -5,8 +5,7 @@
     "main": "dist/server.js",
     "type": "module",
     "scripts": {
-        "start": "ts-node api/server.ts",
-        "server": "nodemon api/server.ts",
+        "server": "nodemon --experimental-specifier-resolution=node api/server.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
