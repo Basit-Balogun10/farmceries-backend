@@ -70,8 +70,8 @@ export const authenticateWithGoogle = async (req: Request, res: Response) => {
 		// if (stateFromCookies === stateFromRequest) {
 		if (true) {
 			// const { isSignup } = decryptState(stateFromCookies);
-			const { isSignup } = decryptState(stateFromRequest as string);
-			console.log('IS SIGNUP', isSignup);
+			// const { isSignup } = decryptState(stateFromRequest as string);
+			// console.log('IS SIGNUP', isSignup);
 			const { code, error } = req.query;
 
 			if (error || !code) {
