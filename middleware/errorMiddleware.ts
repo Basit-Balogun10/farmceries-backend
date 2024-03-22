@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction, } from "express";
-import AppConfig from "../config";
+import AppConfig from "../config/index.js";
 
 export const errorHandler = (
     err: TypeError,

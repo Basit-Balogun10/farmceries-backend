@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Product from "../../models/product";
+import Product from "../../models/product.js";
 
 export const getProducts = async (req: Request, res: Response) => {
     const count = parseInt(req?.query?.count as string, 10) || 20;

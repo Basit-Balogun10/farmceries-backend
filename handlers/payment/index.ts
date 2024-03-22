@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import dotenv from "dotenv";
-import AppConfig from "../../config";
+import AppConfig from "../../config/index.js";
 
 dotenv.config();
 

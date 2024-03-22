@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import Order from "../../models/order";
-import Product from "../../models/product";
 import { v4 as uuidv4 } from "uuid";
-import { OrderStatus } from "../../types";
+import Order from "../../models/order.js";
+import Product from "../../models/product.js";
+import { OrderStatus } from "../../types/index.js";
 
 export const getOrders = async (req: Request, res: Response) => {
     const { userEmail } = req.query;

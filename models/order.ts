@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { OrderStatus } from "../types";
 
 export interface IOrder {
     userEmail: string;

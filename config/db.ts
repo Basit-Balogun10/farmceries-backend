@@ -1,6 +1,6 @@
 import { connect } from "mongoose";
 import colors from "colors";
-import AppConfig from '.';
+import AppConfig from './index.js';
 
 const connectDB = async () => {
     try {
