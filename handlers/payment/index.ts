@@ -79,12 +79,12 @@ export const receivePaystackWebhookEvent = async (req: Request, res: Response) =
     
     if (hash == req.headers[PAYSTACK_EVENT_HEADER]) {
 
-    res.send(200);
-
-    // Retrieve the request's body
-    const event = req.body;
         
-    console.log("PAYMENT EVENT: ", event);
+        // Retrieve the request's body
+        const event = req.body;
+        
+        console.log("PAYMENT EVENT: ", event);
+        res.send(200);
     }
 }
 
