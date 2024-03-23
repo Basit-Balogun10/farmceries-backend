@@ -5,6 +5,6 @@ const paymentRouter = express.Router();
 
 paymentRouter.post("/paystack/payment-link", createPaystackPaymentLink);
 paymentRouter.get("/paystack/verify-payment", verifyPaystackPayment);
-paymentRouter.get("/paystack/webhook", receivePaystackWebhookEvent);
+paymentRouter.post("/paystack/webhook", receivePaystackWebhookEvent);
 
 export default paymentRouter;
