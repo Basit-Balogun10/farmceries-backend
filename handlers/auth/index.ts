@@ -5,9 +5,9 @@ import {
 	generateToken,
 	generateRandomCharacters,
 	encryptData,
-	decryptState,
 } from '../../utils/index.js';
-
+import '../../types/index.js'
+import { CustomSessionData } from "../../types/index.js";
 
 export const authenticateWithGoogle = async (req: Request, res: Response) => {
 	const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
@@ -16,14 +16,14 @@ export const authenticateWithGoogle = async (req: Request, res: Response) => {
 		'https://www.googleapis.com/auth/userinfo.profile',
 	];
 	const REDIRECT_URI = 'api/v1/auth/google/';
-	const BASE_FRONTEND_URL =
+	const MOBILE_APP_DEEP_LINK =
 		AppConfig.NODE_ENV === 'production'
-			? AppConfig.APP_LIVE_URL
-			: AppConfig.BASE_FRONTEND_URL;
+			? AppConfig.LIVE_MOBILE_APP_DEEP_LINK
+			: AppConfig.LOCAL_MOBILE_APP_DEEP_LINK;
 	const BACKEND_DOMAIN =
 		AppConfig.NODE_ENV === 'production'
-			? AppConfig.APP_LIVE_URL
-			: AppConfig.BASE_BACKEND_URL;
+			? AppConfig.LIVE_BACKEND_URL
+			: AppConfig.LOCAL_BACKEND_URL;
 
 	if (req.query.obtainAuthUrl) {
 		let state = generateRandomCharacters(20);
@@ -40,44 +40,30 @@ export const authenticateWithGoogle = async (req: Request, res: Response) => {
 			scope: GOOGLE_AUTH_SCOPE.join(' '),
 			state: encryptedState,
 		};
-		const cookieOptions = {
-			maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds
-			secure: true,
-			httpOnly: true,
-			sameSite: 'none' as const,
-		};
+		
 		const response_data = {
 			googleAuthUrl: `${GOOGLE_AUTH_URL}?${new URLSearchParams(
 				googleAuthUrlParams
 			).toString()}`,
 		};
 
-		res.cookie(
-			AppConfig.OAUTH_STATE_PARAM_NAME,
-			encryptedState,
-			cookieOptions
-		);
+		(req.session as CustomSessionData).state = encryptedState;
+
 		res.status(200).json(response_data);
 	} else {
 		const stateFromRequest = req.query.state;
-		console.log('cookies: ', req.cookies);
-		if (req.cookies) {
-			const stateFromCookies = req.cookies[AppConfig.OAUTH_STATE_PARAM_NAME];
-			console.log('COOKIE STATE', stateFromCookies);
-		}
+		console.log('session: ', req.session);
+		const stateFromSession = (req.session as CustomSessionData).state
+		console.log('SESSION STATE', stateFromSession);
 		console.log('REQUEST STATE', stateFromRequest);
 
-		// if (stateFromCookies === stateFromRequest) {
-		if (true) {
-			// const { isSignup } = decryptState(stateFromCookies);
-			// const { isSignup } = decryptState(stateFromRequest as string);
-			// console.log('IS SIGNUP', isSignup);
+		if (stateFromSession === stateFromRequest) {
 			const { code, error } = req.query;
 
 			if (error || !code) {
 				const urlParams = { message: error };
 				res.redirect(
-					`exp://192.168.0.3:8081/--/?error=${JSON.stringify(
+					`${MOBILE_APP_DEEP_LINK}?error=${JSON.stringify(
 						urlParams
 					)}`
 				);
@@ -96,50 +82,17 @@ export const authenticateWithGoogle = async (req: Request, res: Response) => {
 			const firstName = userData?.given_name;
 			const lastName = userData?.family_name || '';
 
-			const userProfileData = {
+			const userProfile = {
 				email: userData.email,
 				firstName,
-				googlePictureUrl: userData.picture || '',
-				googleRefreshToken: refreshToken,
-				isMentor: false,
 				lastName,
-				password: '',
+				photoUrl: userData.picture || '',
+				googleRefreshToken: refreshToken,
 			};
 
-			// let user = await UserService.getUser(userData.email);
-
-			// if (!user) {
-			// 	user = await UserService.createUser(userProfileData);
-			// }
-			// const token = generateToken(user);
-
-			// const resData = {
-			// 	user: {
-			// 		email: user.email,
-			// 		firstName: user.firstName,
-			// 		id: user.id,
-			// 		isMentor: user.isMentor,
-			// 		lastName: user.lastName,
-			// 		googlePictureUrl: user.pictureUrl,
-			// 	},
-			// };
-
-			const cookieOptions = {
-				maxAge: 7 * 24 * 60 * 60 * 1000, // 30 minutes in milliseconds
-				secure: true,
-				httpOnly: true,
-				sameSite: 'lax' as const,
-			};
-
-			res.cookie(AppConfig.AUTH_COOKIE_NAME, 54321, cookieOptions);
-			// res.redirect(
-			// 	`${BASE_FRONTEND_URL}/mentors?user=${btoa(
-			// 		JSON.stringify(resData)
-			// 	)}`
-			// );
             res.redirect(
-				`exp://192.168.0.3:8081/--/?token=${54321}&user=${btoa(
-					JSON.stringify(userProfileData)
+				`${MOBILE_APP_DEEP_LINK}?userProfile=${btoa(
+					JSON.stringify(userProfile)
 				)}`
 			);
 		} else {
@@ -152,7 +105,10 @@ export const authenticateWithGoogle = async (req: Request, res: Response) => {
 };
 
 export const sendOTP = () => {
-
+// Send OTP by two channels: SMS or Email
+// Generate OTP
+// Save OTP in Redis
+// Send OTP to user
 }
 
 export const resendOTP = () => {

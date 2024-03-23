@@ -7,6 +7,9 @@ export interface IAccount {
     lastName: string;
     email: string;
     phoneNumber: string;
+    photoUrl?: string;
+    googleRefreshToken?: string;
+
     type: "end_user" | "vendor" | "farmer" | "courier";
 }
 
@@ -56,6 +59,14 @@ const accountSchema = new Schema<IAccount>({
     type: {
         type: String,
         enum: ["end_user", "vendor", "farmer", "courier"],
+    },
+    photoUrl: {
+        type: String,
+        required: false,
+    },
+    googleRefreshToken: {
+        type: String,
+        required: false,
     },
 }, {
     _id: true,

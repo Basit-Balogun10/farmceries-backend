@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import axios from "axios";
+import crypto from 'crypto'
 import { v4 as uuidv4 } from "uuid";
 import dotenv from "dotenv";
 import AppConfig from "../../config/index.js";
+import PAYSTACK_EVENT_HEADER from "../../utils/constants.js";
 
 dotenv.config();
 
@@ -71,6 +73,20 @@ export const createPaystackPaymentLink = async (req: Request, res: Response) => 
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
+export const receivePaystackWebhookEvent = async (req: Request, res: Response) => {
+    const hash = crypto.createHmac('sha512', AppConfig.PAYSTACK_SECRET_KEY).update(JSON.stringify(req.body)).digest('hex');
+    
+    if (hash == req.headers[PAYSTACK_EVENT_HEADER]) {
+
+    res.send(200);
+
+    // Retrieve the request's body
+    const event = req.body;
+        
+    console.log("PAYMENT EVENT: ", event);
+    }
+}
 
 export const verifyPaystackPayment = async (req: Request, res: Response) => {
     try {

@@ -2,12 +2,13 @@ import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 import AppConfig from '../config/index.js';
 
-export const generateToken = (user: any) => {
+export const generateToken = (account: any) => {
 	const issuedAt = new Date().getTime()
 
 	const tokenPayload = {
-		id: user._id,
-		email: user.email,
+		id: account._id,
+		email: account.email,
+		phoneNumber: account.phoneNumber,
 		iat: issuedAt,
 	}
 

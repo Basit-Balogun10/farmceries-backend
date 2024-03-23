@@ -1,0 +1,1 @@
+export const PAYSTACK_EVENT_HEADER = 'x-paystack-signature';

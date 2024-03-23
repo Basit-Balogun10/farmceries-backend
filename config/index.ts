@@ -2,15 +2,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const AppConfig = {
-	APP_LIVE_URL: process.env.APP_LIVE_URL as string,
-	AUTH_COOKIE_NAME: process.env.AUTH_COOKIE_NAME as string,
-	BASE_BACKEND_URL: process.env.BASE_BACKEND_URL as string,
-	BASE_FRONTEND_URL: process.env.BASE_FRONTEND_URL as string,
-	CHARACTER_ENCODING: process.env.CHARACTER_ENCODING as string,
+	LIVE_BACKEND_URL: process.env.LIVE_BACKEND_URL as string,
+	LOCAL_BACKEND_URL: process.env.LOCAL_BACKEND_URL as string,
+	LOCAL_MOBILE_APP_DEEP_LINK: process.env.LOCAL_MOBILE_APP_DEEP_LINK as string,
+	LIVE_MOBILE_APP_DEEP_LINK: process.env.LIVE_MOBILE_APP_DEEP_LINK as string,
 	ENCRYPTION_ALGORITHM: process.env.ENCRYPTION_ALGORITHM as string,
 	GOOGLE_OAUTH2_CLIENT_ID: process.env.GOOGLE_OAUTH2_CLIENT_ID as string,
 	GOOGLE_OAUTH2_CLIENT_SECRET: process.env.GOOGLE_OAUTH2_CLIENT_SECRET as string,
-	OAUTH_STATE_PARAM_NAME: process.env.OAUTH_STATE_PARAM_NAME as string,
 	SECRET_KEY: process.env.SECRET_KEY as string,
 	INIT_VECTOR: process.env.INIT_VECTOR as string,
 	JWT_SECRET: process.env.JWT_SECRET as string,
