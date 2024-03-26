@@ -24,7 +24,7 @@ export const createAccount = asyncHandler(async (req: Request, res: Response) =>
       const { newAccount, newUser } = await AccountService.createAccount(userProfile);
 
       // generate token
-      const token = generateToken(account);
+      const token = generateToken(newAccount);
 
       const newProfile = {
         account: {

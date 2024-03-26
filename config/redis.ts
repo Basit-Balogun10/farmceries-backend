@@ -3,6 +3,8 @@ import { Request } from "express"
 import AppConfig from "../config/index.js";
 import hash from "object-hash"
 import { RedisClientType } from "@redis/client";
+import { RedisCommandArgument } from '@redis/client/dist/lib/commands';
+import { SetOptions } from '@redis/client/dist/lib/commands/SET.js';
 
 let redisClient: RedisClientType;
 
@@ -21,7 +23,7 @@ export const isRedisWorking = () => {
   return !!redisClient?.isOpen;
 }
 
-export const writeData = async (key: string, data: unknown, options: SetOptions) => {
+export const writeData = async (key: RedisCommandArgument, data: number | RedisCommandArgument, options: SetOptions | undefined) => {
   if (isRedisWorking()) {
     try {
       // write data to the Redis cache
@@ -30,7 +32,7 @@ export const writeData = async (key: string, data: unknown, options: SetOptions)
       console.error(`Failed to cache data for key=${key}`, e);
     }
   }
-}
+};
 
 export const readData = async (key: string) => {
   let cachedValue = undefined;

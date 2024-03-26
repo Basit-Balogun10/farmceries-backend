@@ -12,11 +12,14 @@ export interface IAccountInfoRequest extends Request {
 export const protect = asyncHandler(async (req: IAccountInfoRequest,
     res: Response,
     next: NextFunction) => {
-    let token: string;
-    
+    const token = AppConfig.AUTH_HEADER_NAME in req.headers ? req.headers[AppConfig.AUTH_HEADER_NAME] as string : undefined;
+    if (!token) {
+        res.status(401);
+        throw new Error("Not authorized, no token");
+    }
+
     try {
         // Get token from headers
-        token = req.header[AppConfig.AUTH_HEADER_NAME] as string;
         console.log(`AUTH TOKEN: , ${token}`);
 
         // Verify token
@@ -32,8 +35,4 @@ export const protect = asyncHandler(async (req: IAccountInfoRequest,
         throw new Error("Not authorized");
     }
 
-    if (!token) {
-        res.status(401);
-        throw new Error("Not authorized, no token");
-    }
 });

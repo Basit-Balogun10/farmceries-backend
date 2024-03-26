@@ -5,7 +5,7 @@ import crypto from 'crypto'
 import { v4 as uuidv4 } from "uuid";
 import dotenv from "dotenv";
 import AppConfig from "../../config/index.js";
-import PAYSTACK_EVENT_HEADER from "../../utils/constants.js";
+import {PAYSTACK_EVENT_HEADER} from "../../utils/constants.js";
 
 dotenv.config();
 
@@ -94,7 +94,7 @@ export const verifyPaystackPayment = asyncHandler(async (req: Request, res: Resp
         const { reference, amount } = req.query;
 
         if (!reference || !amount) {
-            return res.status(400).json({
+            res.status(400).json({
                 error: "Invalid request. Please provide reference and amount",
             });
         }

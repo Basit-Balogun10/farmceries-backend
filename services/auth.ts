@@ -64,7 +64,7 @@ export class GoogleAuthService {
 	}
 
 	static async getUserInfo(accessToken: string) {
-		let userInfo: { [key: string]: any} = {}
+		let userInfo: Record<string, string> = {}
 
 		await axios
 			.get(`${this.GOOGLE_USER_INFO_URL}?access_token=${accessToken}`)

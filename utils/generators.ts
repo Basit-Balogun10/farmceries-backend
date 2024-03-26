@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import AppConfig from '../config/index.js';
+import { IAccount } from '../models/account.js';
 
-export const generateToken = (account: any) => {
+export const generateToken = (account: IAccount) => {
   const issuedAt = new Date().getTime();
 
   const tokenPayload = {

@@ -18,7 +18,7 @@ export const authenticateWithGoogle = asyncHandler(async (req: Request, res: Res
   const BACKEND_DOMAIN = AppConfig.NODE_ENV === 'production' ? AppConfig.LIVE_BACKEND_URL : AppConfig.LOCAL_BACKEND_URL;
 
   if (req.query.obtainAuthUrl) {
-    let state = generateRandomCharacters(20);
+    const state = generateRandomCharacters(20);
 
     console.log('STATE', state);
     const encryptedState = encryptData(state);
