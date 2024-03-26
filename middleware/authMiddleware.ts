@@ -1,30 +1,29 @@
 import { Request, Response, NextFunction, } from "express";
-import type { IUser } from "../models/userModel"
 
 import jwt, { JwtPayload } from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
-import User from "../models/userModel";
+import Account, { IAccount } from "../models/account.js"
+import AppConfig from "../config/index.js";
 
-export interface IUserInfoRequest extends Request {
-    user?: IUser;
+export interface IAccountInfoRequest extends Request {
+    user?: IAccount;
 }
 
-export const protect = asyncHandler(async (req: IUserInfoRequest,
+export const protect = asyncHandler(async (req: IAccountInfoRequest,
     res: Response,
     next: NextFunction) => {
-    let token;
-
+    let token: string;
     
     try {
-        // Get token from cookies
-        token = req.cookies["NDIC_token"] as string;
-        console.log(`USER TOKEN, ${token}`);
+        // Get token from headers
+        token = req.header[AppConfig.AUTH_HEADER_NAME] as string;
+        console.log(`AUTH TOKEN: , ${token}`);
 
         // Verify token
         const decoded = jwt.verify(token, (process.env.JWT_SECRET) as string);
-        console.log(decoded, 'DECODED TOKEN')
+        console.log('DECODED TOKEN: ', decoded)
 
-        req.user = (await User.findById((decoded as JwtPayload).id).select("-password")) as (undefined | IUser);
+        req.user = await Account.findById((decoded as JwtPayload).id) as (undefined | IAccount);
 
         next();
     } catch (error) {

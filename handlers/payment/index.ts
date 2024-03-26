@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import asyncHandler from 'express-async-handler'
 import axios from "axios";
 import crypto from 'crypto'
 import { v4 as uuidv4 } from "uuid";
@@ -8,7 +9,7 @@ import PAYSTACK_EVENT_HEADER from "../../utils/constants.js";
 
 dotenv.config();
 
-export const createFlutterwavePaymentLink = async (req: Request, res: Response) => {
+export const createFlutterwavePaymentLink = asyncHandler(async (req: Request, res: Response) => {
     try {
         const response = await axios.post(
             "https://api.flutterwave.com/v3/payments",
@@ -34,9 +35,9 @@ export const createFlutterwavePaymentLink = async (req: Request, res: Response) 
         console.error(err);
         res.status(500).json({ error: "Internal Server Error" });
     }
-};
+});
 
-export const createPaystackPaymentLink = async (req: Request, res: Response) => {
+export const createPaystackPaymentLink = asyncHandler(async (req: Request, res: Response) => {
     console.log("callback: ", req.body.callback_url);
     try {
         const response = await axios.post(
@@ -72,9 +73,9 @@ export const createPaystackPaymentLink = async (req: Request, res: Response) => 
         console.error(err);
         res.status(500).json({ error: "Internal Server Error" });
     }
-};
+});
 
-export const receivePaystackWebhookEvent = async (req: Request, res: Response) => {
+export const receivePaystackWebhookEvent = asyncHandler(async (req: Request, res: Response) => {
     const hash = crypto.createHmac('sha512', AppConfig.PAYSTACK_SECRET_KEY).update(JSON.stringify(req.body)).digest('hex');
     
     if (hash == req.headers[PAYSTACK_EVENT_HEADER]) {
@@ -86,9 +87,9 @@ export const receivePaystackWebhookEvent = async (req: Request, res: Response) =
         console.log("PAYMENT EVENT: ", event);
         res.send(200);
     }
-}
+})
 
-export const verifyPaystackPayment = async (req: Request, res: Response) => {
+export const verifyPaystackPayment = asyncHandler(async (req: Request, res: Response) => {
     try {
         const { reference, amount } = req.query;
 
@@ -119,4 +120,4 @@ export const verifyPaystackPayment = async (req: Request, res: Response) => {
         console.error(err);
         res.status(500).json({ error: "Internal Server Error" });
     }
-};
+});

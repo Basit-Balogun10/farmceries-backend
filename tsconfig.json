@@ -106,7 +106,7 @@
         // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
         "skipLibCheck": true /* Skip type checking all .d.ts files. */
     },
-    "exclude": ["node_modules", "dist", ".eslintrc.js", ".prettierrc.js", "config/index.js"],
+    "exclude": ["node_modules", "dist", ".eslintrc.cjs", ".prettierrc.cjs", "config/index.js"],
     "include": ["api"],
     "ts-node": {
         "esm": true,

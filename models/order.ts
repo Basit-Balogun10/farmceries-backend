@@ -1,19 +1,45 @@
-import { model,  Schema } from "mongoose";
+import { Document, model,  Schema } from "mongoose";
 
-export interface IOrder {
-    userEmail: string;
+export interface IOrder extends Document {
+    endUser: Schema.Types.ObjectId;
+    vendor?: Schema.Types.ObjectId;
+    farmer?: Schema.Types.ObjectId;
+    courier?: Schema.Types.ObjectId;
     transactionId: string;
-    product: Schema.Types.ObjectId; // Assuming Types.ObjectId is imported from mongoose
+    product: Schema.Types.ObjectId;
+    pickupCoordinates: string;
+    deliveryCoordinates: string;
     status: "pending" | "delivered";
 }
 
 const orderSchema = new Schema<IOrder>({
-    userEmail: String,
     transactionId: String,
+    endUser: {
+        type: Schema.Types.ObjectId,
+        ref: "EndUser",
+    },
+    vendor: {
+        type: Schema.Types.ObjectId,
+        ref: "Vendor",
+        required: false
+    },
+    farmer: {
+        type: Schema.Types.ObjectId,
+        ref: "Farmer",
+        required: false
+    },
+    courier: {  
+        type: Schema.Types.ObjectId,
+        ref: "Courier",
+        required: false
+    },
     product: {
+        
         type: Schema.Types.ObjectId,
         ref: "Product",
     },
+    pickupCoordinates: String,
+    deliveryCoordinates: String,
     status: {
         type: String,
         enum: ["pending", "delivered"],

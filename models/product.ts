@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-export interface IProduct {
+export interface IProduct extends Document {
     id: number;
     name: string;
     aliases: string[];
@@ -16,7 +16,6 @@ export interface IProduct {
     minPrice?: number;
     maxPrice?: number;
     shelfLife: string;
-    vendor: string;
     category: "Vegetables" | "Fruits" | "Water" | "Drink" | "Flowers" | "Cereals" | "Grains" | "Spices" | "Poultry" | "Pets" | "Livestock";
 }
 
@@ -37,7 +36,6 @@ const productSchema = new Schema<IProduct>({
     minPrice: Number,
     maxPrice: Number,
     shelfLife: String,
-    vendor: String,
     category: {
         type: String,
         enum: [
@@ -47,7 +45,7 @@ const productSchema = new Schema<IProduct>({
             "Drink",
             "Flowers",
             "Cereals",
-            "Grains",
+            "Grains", 
             "Spices",
             "Poultry",
             "Pets",
