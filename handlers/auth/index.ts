@@ -123,6 +123,7 @@ export const sendOTP = asyncHandler(async (req: Request, res: Response) => {
 
       const OTP_ID = response.data.otp_id;
       await redisClient?.setEx(`sms-otp-id:${phoneNumber}`, 300, OTP_ID);
+      res.status(200).json({ success: 'true', message: 'OTP sent successfully' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Unable to send OTP' });
@@ -139,6 +140,7 @@ export const sendOTP = asyncHandler(async (req: Request, res: Response) => {
     await sendEmail(emailData, '../templates/emails/verifyOTP.pug');
     console.log('Email sent');
     await redisClient?.setEx(`email-otp:${email}`, 300, OTP);
+    res.status(200).json({ success: 'true', message: 'OTP sent successfully' });
   }
 });
 
