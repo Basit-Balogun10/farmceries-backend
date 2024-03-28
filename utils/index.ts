@@ -1,5 +1,5 @@
 export { generateToken, generateRandomCharacters } from './generators.js'
-export { encryptData, decryptData, decryptState } from './cryptography.js'
+export { encryptData, decryptData } from './cryptography.js'
 
 // export const throwErrorIfEmpty = (field: { name: string}, res) => {
 // 	if (!field.name) {
